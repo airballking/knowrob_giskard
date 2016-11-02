@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY pr2 "http://knowrob.org/kb/pr2.owl#" >
+    <!ENTITY controllers "http://knowrob.org/kb/controllers.owl#" >
+]>
+
+<rdf:RDF xmlns="http://knowrob.org/kb/controllers_test.owl#"
+     xml:base="http://knowrob.org/kb/controllers_test.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
+     xmlns:pr2="http://knowrob.org/kb/pr2.owl#"
+     xmlns:controllers="http://knowrob.org/kb/controllers.owl#">
+    <owl:Ontology rdf:about="http://knowrob.org/kb/controllers_test.owl">
+        <owl:imports rdf:resource="package://knowrob_giskard/owl/controllers.owl"/>
+        <owl:imports rdf:resource="package://knowrob_srdl/owl/PR2.owl"/>
+    </owl:Ontology>
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+    <owl:NamedIndividual rdf:about="&controllers;DoubleConst_OdhJed">
+      <rdf:type rdf:resource="&knowrob;DoubleConstExpression"/>
+      <knowrob:value rdf:datatype="&xsd;double">7.45</knowrob:value>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&controllers;PGain_OdhJed">
+      <rdf:type rdf:resource="&controllers;ProportionalGain"/>
+      <controllers:hasExpression rdf:resource="&controllers;DoubleConst_0dhJed"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="&controllers;PController_OdhJed">
+      <rdf:type rdf:resource="&controllers;ProportionalController"/>
+      <controllers:hasGain rdf:resource="&controllers;PGain_0dhJed"/>
+      <controllers:isControllerOf rdf:resource="&pr2;pr2_torso_lift_joint"/>
+    </owl:NamedIndividual>
+
+</rdf:RDF>

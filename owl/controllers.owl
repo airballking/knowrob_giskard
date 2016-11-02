@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY srdl2-comp "http://knowrob.org/kb/srdl2-comp.owl#" >
+    <!ENTITY controllers "http://knowrob.org/kb/controllers.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://knowrob.org/kb/controllers_test.owl#"
+     xml:base="http://knowrob.org/kb/controllers_test.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
+     xmlns:srdl2-comp="http://knowrob.org/kb/srdl2-comp.owl#"
+     xmlns:controllers="http://knowrob.org/kb/controllers.owl#">
+    <owl:Ontology rdf:about="http://knowrob.org/kb/controllers.owl">
+        <owl:imports rdf:resource="package://knowrob_common/owl/knowrob.owl"/>
+        <owl:imports rdf:resource="package://knowrob_common/owl/knowrob_math.owl"/>
+        <owl:imports rdf:resource="package://knowrob_srdl/owl/srdl2-comp.owl"/>
+    </owl:Ontology>
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:ObjectProperty rdf:about="&controllers;isExpressionOf">
+        <rdfs:domain rdf:resource="&knowrob;MathExpression"/>
+        <rdfs:range rdf:resource="&controllers;ControllerTerm"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="&controllers;hasExpression">
+        <rdfs:domain rdf:resource="&controllers;ControllerTerm"/>
+        <rdfs:range rdf:resource="&knowrob;MathExpression"/>
+        <owl:inverseOf rdf:resource="&controllers;isExpressionOf"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="&controllers;hasController">
+        <!-- TODO: extend the domain!
+                   1st idea: use restrictions (only joint types and link types)
+                   2nd idea: build a separate ontology for this (positions, velocities, etc.) -->
+        <rdfs:domain rdf:resource="&srdl2-comp;PrismaticUrdfJoint"/>
+        <rdfs:range rdf:resource="&controllers;Controller"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="&controllers;isControllerOf">
+        <rdfs:domain rdf:resource="&controllers;Controller"/>
+        <!-- TODO: extend the range!
+                   1st idea: use restrictions (only joint types and link types)
+                   2nd idea: build a separate ontology for this (positions, velocities, etc.) -->
+        <rdfs:range rdf:resource="&srdl2-comp;PrismaticUrdfJoint"/>
+        <owl:inverseOf rdf:resource="&controllers;hasController"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="&controllers;isGainOf">
+        <rdfs:domain rdf:resource="&controllers;Gain"/>
+        <rdfs:range rdf:resource="&controllers;Controller"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="&controllers;hasGain">
+        <rdfs:domain rdf:resource="&controllers;Controller"/>
+        <rdfs:range rdf:resource="&controllers;Gain"/>
+        <owl:inverseOf rdf:resource="&controllers;isGainOf"/>
+    </owl:ObjectProperty>
+
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <!-- TODO: find a better place in the ontology -->
+
+    <owl:Class rdf:about="&controllers;ControlConcept">
+        <rdfs:subClassOf rdf:resource="&knowrob;Thing"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&controllers;Controller">
+        <rdfs:subClassOf rdf:resource="&knowrob;ControlConcept"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&controllers;ProportionalController">
+        <rdfs:subClassOf rdf:resource="&knowrob;Controller"/>
+        <!-- TODO: Add further restrictions for property hasGain-->
+    </owl:Class>
+
+    <owl:Class rdf:about="&controllers;Gain">
+        <rdfs:subClassOf rdf:resource="&controllers;ControlConcept"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&controllers;ProportionalGain">
+        <rdfs:subClassOf rdf:resource="&controllers;Gain"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&controllers;SetPoint">
+        <rdfs:subClassOf rdf:resource="&controllers;ControlConcept"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&controllers;ProcessVariable">
+        <rdfs:subClassOf rdf:resource="&controllers;ControlConcept"/>
+    </owl:Class>
+
+    <owl:Class rdf:about="&controllers;ErrorSignal">
+        <rdfs:subClassOf rdf:resource="&controllers;ControlConcept"/>
+    </owl:Class>
+
+</rdf:RDF>
